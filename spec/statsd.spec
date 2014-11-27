@@ -1,6 +1,6 @@
 Name:           statsd
 Version:        0.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        monitoring daemon, that aggregates events received by udp in 10 second intervals
 Group:          Applications/Internet
 License:        Etsy open source license
@@ -79,5 +79,8 @@ service %{name} start
 %ghost %{_localstatedir}/lock/subsys/%{name}
 
 %changelog
+* Fri Nov 27 2014 Scott O'Neil <scott@cpanel.net> 0.7.0-2
+- Fixing stop part of init script
+
 * Sun Jun 10 2012 Rene Cunningham <rene@compounddata.com> 0.3.0-1
 - initial build
