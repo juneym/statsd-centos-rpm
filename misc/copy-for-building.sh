@@ -9,7 +9,9 @@ if [ ! -d spec ]; then
 fi
 
 /bin/cp spec/statsd.spec ~/rpmbuild/SPECS
-/bin/cp sources/statsd ~/rpmbuild/SOURCES/statsd-init.d
+/bin/cp sources/statsd-sysvinit ~/rpmbuild/SOURCES
+/bin/cp sources/statsd-systemd ~/rpmbuild/SOURCES
+/bin/cp sources/statsd-defaults ~/rpmbuild/SOURCES
 /bin/cp sources/config.js ~/rpmbuild/SOURCES/config.js
 /bin/cp sources/config.js ~/rpmbuild/SOURCES/exampleConfig.js
 /bin/cp sources/exampleProxyConfig.js ~/rpmbuild/SOURCES/exampleProxyConfig.js

@@ -1,0 +1,13 @@
+[Unit]
+Description=monitoring daemon, that aggregates events received by udp in 10 second intervals
+Documentation=https://github.com/etsy/statsd/
+Wants=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/default/statsd
+EnvironmentFile=-/etc/sysconfig/statsd
+ExecStart=/usr/bin/node ${INSTALL_DIR}/stats.js ${CONFIGJS}
+
+[Install]
+WantedBy=multi-user.target

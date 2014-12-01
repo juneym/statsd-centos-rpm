@@ -1,0 +1,5 @@
+#NOTE: This not a configuration file. If you want to override what's in here
+#      please create a file called /etc/sysconfig/statsd and override what's
+#      here there.
+CONFIGJS=/etc/statsd/config.js
+INSTALL_DIR=/usr/share/statsd

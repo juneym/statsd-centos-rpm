@@ -22,9 +22,7 @@
 
 #Vars and their defaults
 NAME=statsd
-INSTALL_DIR=/usr/share/statsd
-NODE_EXE=/usr/bin/node
-CONFIGJS=/etc/statsd/config.js
+. /etc/default/statsd
 [ -f /etc/sysconfig/statsd ] && . /etc/sysconfig/statsd
 
 [ -x $NODE_EXE ] || exit 0
@@ -41,7 +39,7 @@ start() {
 	if [ ! -f /var/lock/subsys/$NAME ]; then
 	    echo -n $"Starting $NAME daemon: "
         # daemon
-        $NODE_EXE $INSTALL_DIR/stats.js $CONFIGJS >/dev/null 2>&1 &
+        /usr/bin/node $INSTALL_DIR/stats.js $CONFIGJS >/dev/null 2>&1 &
         RETVAL=$?
         PID=$!
         if [ $RETVAL -eq 0 ]; then
