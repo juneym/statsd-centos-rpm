@@ -20,9 +20,12 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+#Vars and their defaults
 NAME=statsd
-INSTALL_DIR=/usr/share/$NAME
+INSTALL_DIR=/usr/share/statsd
 NODE_EXE=/usr/bin/node
+CONFIGJS=/etc/statsd/config.js
+[ -f /etc/sysconfig/statsd ] && . /etc/sysconfig/statsd
 
 [ -x $NODE_EXE ] || exit 0
 [ -f $INSTALL_DIR/stats.js ] || exit 0
@@ -38,7 +41,7 @@ start() {
 	if [ ! -f /var/lock/subsys/$NAME ]; then
 	    echo -n $"Starting $NAME daemon: "
         # daemon
-        $NODE_EXE $INSTALL_DIR/stats.js /etc/$NAME/config.js >/dev/null 2>&1 &
+        $NODE_EXE $INSTALL_DIR/stats.js $CONFIGJS >/dev/null 2>&1 &
         RETVAL=$?
         PID=$!
         if [ $RETVAL -eq 0 ]; then
