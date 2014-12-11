@@ -20,9 +20,10 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+#Vars and their defaults
 NAME=statsd
-INSTALL_DIR=/usr/share/$NAME
-NODE_EXE=/usr/bin/node
+. /etc/default/statsd
+[ -f /etc/sysconfig/statsd ] && . /etc/sysconfig/statsd
 
 [ -x $NODE_EXE ] || exit 0
 [ -f $INSTALL_DIR/stats.js ] || exit 0
@@ -38,10 +39,12 @@ start() {
 	if [ ! -f /var/lock/subsys/$NAME ]; then
 	    echo -n $"Starting $NAME daemon: "
         # daemon
-        $NODE_EXE $INSTALL_DIR/stats.js /etc/$NAME/config.js >/dev/null 2>&1 &
-	    RETVAL=$?
+        /usr/bin/node $INSTALL_DIR/stats.js $CONFIGJS >/dev/null 2>&1 &
+        RETVAL=$?
+        PID=$!
         if [ $RETVAL -eq 0 ]; then
             touch /var/lock/subsys/$NAME
+            echo $PID > /var/run/$NAME.pid
             echo_success
         else
             echo_failure
@@ -52,10 +55,9 @@ start() {
 }
 
 stop() {
-	echo -n $"Stopping $NAME daemon: "
-    pid=$(ps aux | grep stats.js | grep node | awk '{print $2}')
-    kill $pid
-	RETVAL=$?
+    echo -n $"Stopping $NAME daemon: "
+    killproc -p /var/run/$NAME.pid
+    RETVAL=$?
     if [ $RETVAL -eq 0 ]; then
         rm -f /var/lock/subsys/$NAME
         echo_success
